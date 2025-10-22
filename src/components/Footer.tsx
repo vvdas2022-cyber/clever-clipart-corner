@@ -9,15 +9,15 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
                 <span className="text-xl font-bold text-primary-foreground">A</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                ArtClip
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Artory
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground">
-              Your trusted marketplace for beautiful digital clipart and creative assets.
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Your sophisticated marketplace for exquisite digital art and premium creative assets.
             </p>
             <div className="flex gap-3">
               <a href="#" className="w-9 h-9 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors flex items-center justify-center">
@@ -69,7 +69,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 ArtClip. All rights reserved.</p>
+          <p>&copy; 2025 Artory. All rights reserved.</p>
         </div>
       </div>
     </footer>

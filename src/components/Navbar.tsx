@@ -21,11 +21,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
               <span className="text-xl font-bold text-primary-foreground">A</span>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              ArtClip
+            <span className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+              Artory
             </span>
           </Link>
 
@@ -35,10 +35,10 @@ const Navbar = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search for clipart, templates, fonts..."
+                placeholder="Search for premium clipart, templates, fonts..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full bg-muted/50 border-border focus:border-primary transition-colors"
+                className="pl-10 pr-4 py-2 w-full bg-muted/50 border-border focus:border-primary transition-colors shadow-sm"
               />
             </div>
           </form>
@@ -79,8 +79,8 @@ const Navbar = () => {
           <Link to="/browse?category=stickers" className="text-foreground/80 hover:text-primary transition-colors">
             Stickers
           </Link>
-          <Link to="/dashboard" className="text-foreground/80 hover:text-primary transition-colors">
-            Sell on ArtClip
+          <Link to="/dashboard" className="text-foreground/80 hover:text-primary transition-colors font-medium">
+            Sell on Artory
           </Link>
         </div>
       </div>

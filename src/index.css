@@ -8,53 +8,57 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Pastel watercolor palette */
-    --background: 35 40% 98%;
-    --foreground: 260 15% 25%;
+    /* Luxurious Professional Color Palette */
+    --background: 0 0% 100%;
+    --foreground: 240 8% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 260 15% 25%;
+    --card-foreground: 240 8% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 260 15% 25%;
+    --popover-foreground: 240 8% 15%;
 
-    /* Soft lavender primary */
-    --primary: 260 60% 65%;
+    /* Primary: Deep Royal Purple */
+    --primary: 265 60% 50%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 260 70% 75%;
+    --primary-glow: 265 70% 65%;
 
-    /* Peachy pink secondary */
-    --secondary: 15 80% 85%;
-    --secondary-foreground: 260 15% 25%;
+    /* Secondary: Rich Gold */
+    --secondary: 45 90% 55%;
+    --secondary-foreground: 240 10% 10%;
 
-    /* Soft pastels */
-    --muted: 260 30% 95%;
-    --muted-foreground: 260 10% 50%;
+    /* Accent: Elegant Rose Gold */
+    --accent: 340 75% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Mint green accent */
-    --accent: 150 40% 80%;
-    --accent-foreground: 260 15% 25%;
+    /* Refined neutrals */
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --destructive: 0 70% 65%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 260 20% 90%;
-    --input: 260 20% 92%;
-    --ring: 260 60% 65%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 265 60% 50%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(260 60% 65%), hsl(290 60% 70%));
-    --gradient-hero: linear-gradient(180deg, hsl(260 70% 95%), hsl(15 70% 95%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.8), hsl(260 40% 98% / 0.9));
+    /* Luxury Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(265 60% 50%), hsl(45 90% 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(265 60% 50%) 0%, hsl(340 75% 60%) 50%, hsl(45 90% 55%) 100%);
+    --gradient-card: linear-gradient(to bottom, transparent, hsl(240 5% 96%));
+    --gradient-premium: linear-gradient(135deg, hsl(265 60% 45%) 0%, hsl(265 70% 60%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 90% 55%) 0%, hsl(38 85% 65%) 100%);
 
-    /* Shadows */
-    --shadow-soft: 0 4px 20px hsl(260 40% 70% / 0.12);
-    --shadow-hover: 0 8px 30px hsl(260 50% 60% / 0.18);
+    /* Sophisticated Shadows */
+    --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
+    --shadow-luxury: 0 20px 60px rgba(101, 56, 166, 0.15);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-luxury: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 }
 

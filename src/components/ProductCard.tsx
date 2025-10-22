@@ -15,18 +15,18 @@ interface ProductCardProps {
 
 const ProductCard = ({ id, title, price, image, rating, reviews, seller }: ProductCardProps) => {
   return (
-    <Card className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+    <Card className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
       <Link to={`/product/${id}`}>
         <div className="relative overflow-hidden aspect-square bg-muted">
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           <Button
             size="icon"
             variant="secondary"
-            className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
             onClick={(e) => {
               e.preventDefault();
               // Handle wishlist
@@ -37,9 +37,9 @@ const ProductCard = ({ id, title, price, image, rating, reviews, seller }: Produ
         </div>
       </Link>
 
-      <div className="p-4 space-y-3">
+      <div className="p-5 space-y-3">
         <Link to={`/product/${id}`}>
-          <h3 className="font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors">
+          <h3 className="font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors text-base">
             {title}
           </h3>
         </Link>
@@ -51,7 +51,7 @@ const ProductCard = ({ id, title, price, image, rating, reviews, seller }: Produ
                 key={i}
                 className={`w-4 h-4 ${
                   i < Math.floor(rating)
-                    ? "fill-primary text-primary"
+                    ? "fill-secondary text-secondary"
                     : "fill-muted text-muted"
                 }`}
               />
@@ -62,11 +62,11 @@ const ProductCard = ({ id, title, price, image, rating, reviews, seller }: Produ
 
         <p className="text-sm text-muted-foreground">by {seller}</p>
 
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between pt-2 border-t border-border">
           <span className="text-2xl font-bold text-primary">${price.toFixed(2)}</span>
           <Button
             size="sm"
-            className="gap-2"
+            className="gap-2 shadow-md hover:shadow-lg transition-all"
             onClick={(e) => {
               e.preventDefault();
               // Handle add to cart

@@ -19,27 +19,27 @@ const Hero = () => {
             </div>
             
             <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-              Your Marketplace for{" "}
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Digital Clipart
+              Premium Marketplace for{" "}
+              <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Exquisite Digital Art
               </span>
             </h1>
             
-            <p className="text-lg text-muted-foreground max-w-xl">
-              Discover thousands of high-quality digital products, clipart packs, and creative assets. 
-              Perfect for crafters, designers, and creative professionals.
+            <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
+              Curated collection of luxury digital products, elegant clipart, and sophisticated creative assets. 
+              Crafted for discerning designers and creative professionals.
             </p>
             
             <div className="flex flex-wrap gap-4">
               <Link to="/browse">
-                <Button size="lg" className="gap-2 shadow-lg hover:shadow-xl transition-all">
-                  Explore Products
+                <Button size="lg" className="gap-2 shadow-lg hover:shadow-xl transition-all font-semibold">
+                  Explore Collection
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
               <Link to="/dashboard">
-                <Button variant="outline" size="lg" className="gap-2">
-                  Start Selling
+                <Button variant="outline" size="lg" className="gap-2 font-semibold border-2 hover:bg-primary/5">
+                  Become a Seller
                 </Button>
               </Link>
             </div>

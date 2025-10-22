@@ -90,8 +90,8 @@ const Index = () => {
         {/* Categories Section */}
         <section className="container mx-auto px-4 py-16">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Browse by Category</h2>
-            <p className="text-muted-foreground text-lg">Explore our curated collections of digital assets</p>
+            <h2 className="text-4xl font-bold mb-4">Curated Collections</h2>
+            <p className="text-muted-foreground text-lg">Explore our exquisite selection of premium digital assets</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => (
@@ -101,10 +101,10 @@ const Index = () => {
         </section>
 
         {/* Featured Products Section */}
-        <section className="container mx-auto px-4 py-16 bg-muted/30 rounded-3xl">
+        <section className="container mx-auto px-4 py-16 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 rounded-3xl">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Featured Products</h2>
-            <p className="text-muted-foreground text-lg">Handpicked favorites from our talented creators</p>
+            <h2 className="text-4xl font-bold mb-4">Featured Masterpieces</h2>
+            <p className="text-muted-foreground text-lg">Handpicked selections from our distinguished creators</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
@@ -115,14 +115,14 @@ const Index = () => {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 py-20">
-          <div className="bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-3xl p-12 text-center">
-            <h2 className="text-4xl font-bold mb-4">Ready to Start Selling?</h2>
-            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of creators earning money from their digital art. 
-              It's free to start, and we provide all the tools you need.
+          <div className="bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/15 rounded-3xl p-12 text-center shadow-lg">
+            <h2 className="text-4xl font-bold mb-4">Showcase Your Artistry</h2>
+            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+              Join our community of distinguished creators and turn your digital art into a thriving business. 
+              Premium tools and dedicated support to elevate your success.
             </p>
-            <a href="/dashboard" className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all">
-              Get Started Today
+            <a href="/dashboard" className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-primary to-accent px-8 py-3 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
+              Begin Your Journey
             </a>
           </div>
         </section>
