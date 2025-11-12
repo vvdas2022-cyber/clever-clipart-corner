@@ -37,11 +37,6 @@ const Hero = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link to="/dashboard">
-                <Button variant="outline" size="lg" className="gap-2 font-semibold border-2 hover:bg-primary/5">
-                  Become a Seller
-                </Button>
-              </Link>
             </div>
           </div>
 

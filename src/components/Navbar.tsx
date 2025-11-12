@@ -79,9 +79,6 @@ const Navbar = () => {
           <Link to="/browse?category=stickers" className="text-foreground/80 hover:text-primary transition-colors">
             Stickers
           </Link>
-          <Link to="/dashboard" className="text-foreground/80 hover:text-primary transition-colors font-medium">
-            Sell on Artory
-          </Link>
         </div>
       </div>
     </nav>
