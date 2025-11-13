@@ -4,9 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import productFlowers from "@/assets/product-flowers.jpg";
 
 const Cart = () => {
+  const { toast } = useToast();
+  const [isProcessing, setIsProcessing] = useState(false);
+  
   // Mock cart items
   const cartItems = [
     {
@@ -21,6 +27,35 @@ const Cart = () => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
+
+  const handlePayPalCheckout = async () => {
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('paypal-checkout', {
+        body: {
+          items: cartItems,
+          total: total,
+        },
+      });
+
+      if (error) throw error;
+
+      // Redirect to PayPal checkout
+      const approvalUrl = data.links.find((link: any) => link.rel === 'approve')?.href;
+      if (approvalUrl) {
+        window.location.href = approvalUrl;
+      }
+    } catch (error) {
+      console.error('PayPal checkout error:', error);
+      toast({
+        title: "Payment Error",
+        description: "Failed to initiate PayPal checkout. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -84,8 +119,13 @@ const Cart = () => {
                     <span className="text-primary">${total.toFixed(2)}</span>
                   </div>
                 </div>
-                <Button className="w-full" size="lg">
-                  Proceed to Checkout
+                <Button 
+                  className="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white" 
+                  size="lg"
+                  onClick={handlePayPalCheckout}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Processing..." : "Pay with PayPal"}
                 </Button>
                 <Link to="/browse">
                   <Button variant="outline" className="w-full">
