@@ -3,47 +3,62 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import productFlowers from "@/assets/product-flowers.jpg";
+import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Cart = () => {
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
-  
-  // Mock cart items
-  const cartItems = [
-    {
-      id: "1",
-      title: "Watercolor Flower Clipart Pack",
-      price: 12.99,
-      image: productFlowers,
-      seller: "FloralDesigns",
-    },
-  ];
+  const { cartItems, removeFromCart, isLoading, clearCart, getTotal } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  const subtotal = getTotal();
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
 
   const handlePayPalCheckout = async () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
     setIsProcessing(true);
     try {
+      const formattedItems = cartItems.map(item => ({
+        id: item.product_id,
+        title: item.product.title,
+        price: item.product.price,
+        quantity: item.quantity,
+        seller: item.product.seller,
+      }));
+
       const { data, error } = await supabase.functions.invoke('paypal-checkout', {
         body: {
-          items: cartItems,
+          items: formattedItems,
           total: total,
         },
       });
 
       if (error) throw error;
 
-      // Redirect to PayPal checkout
-      const approvalUrl = data.links.find((link: any) => link.rel === 'approve')?.href;
-      if (approvalUrl) {
-        window.location.href = approvalUrl;
+      if (data && data.links) {
+        const approvalUrl = data.links.find((link: any) => link.rel === 'approve')?.href;
+        if (approvalUrl) {
+          // Clear cart after successful checkout
+          await clearCart();
+          window.location.href = approvalUrl;
+        }
       }
     } catch (error) {
       console.error('PayPal checkout error:', error);
@@ -74,31 +89,42 @@ const Cart = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              {cartItems.map((item) => (
-                <Card key={item.id} className="p-4">
-                  <div className="flex gap-4">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-24 h-24 rounded-lg object-cover"
-                    />
-                    <div className="flex-1">
-                      <Link to={`/product/${item.id}`}>
-                        <h3 className="font-semibold hover:text-primary transition-colors">
-                          {item.title}
-                        </h3>
-                      </Link>
-                      <p className="text-sm text-muted-foreground">by {item.seller}</p>
-                      <p className="text-lg font-bold text-primary mt-2">
-                        ${item.price.toFixed(2)}
-                      </p>
-                    </div>
-                    <Button variant="ghost" size="icon" className="text-destructive">
-                      <Trash2 className="w-5 h-5" />
-                    </Button>
-                  </div>
+              {isLoading ? (
+                <Card className="p-8 text-center">
+                  <p className="text-muted-foreground">Loading cart...</p>
                 </Card>
-              ))}
+              ) : (
+                cartItems.map((item) => (
+                  <Card key={item.id} className="p-4">
+                    <div className="flex gap-4">
+                      <img
+                        src={item.product.image_url}
+                        alt={item.product.title}
+                        className="w-24 h-24 rounded-lg object-cover"
+                      />
+                      <div className="flex-1">
+                        <Link to={`/product/${item.product_id}`}>
+                          <h3 className="font-semibold hover:text-primary transition-colors">
+                            {item.product.title}
+                          </h3>
+                        </Link>
+                        <p className="text-sm text-muted-foreground">by {item.product.seller}</p>
+                        <p className="text-lg font-bold text-primary mt-2">
+                          ${item.product.price.toFixed(2)} × {item.quantity}
+                        </p>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-destructive"
+                        onClick={() => removeFromCart(item.id)}
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </Card>
+                ))
+              )}
             </div>
 
             {/* Order Summary */}

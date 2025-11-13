@@ -1,15 +1,37 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, Star, Download, Shield } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/contexts/AuthContext";
 import productFlowers from "@/assets/product-flowers.jpg";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    if (id) {
+      addToCart(id);
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+    if (id) {
+      addToCart(id);
+      navigate("/cart");
+    }
+  };
 
   // Mock product data
   const product = {
@@ -82,7 +104,7 @@ const ProductDetail = () => {
             </p>
 
             <div className="flex gap-3">
-              <Button size="lg" className="flex-1 gap-2">
+              <Button size="lg" className="flex-1 gap-2" onClick={handleAddToCart}>
                 <ShoppingCart className="w-5 h-5" />
                 Add to Cart
               </Button>
@@ -90,6 +112,10 @@ const ProductDetail = () => {
                 <Heart className="w-5 h-5" />
               </Button>
             </div>
+
+            <Button size="lg" className="w-full" variant="secondary" onClick={handleBuyNow}>
+              Buy Now
+            </Button>
 
             <div className="space-y-3 p-4 rounded-lg bg-muted/30">
               <div className="flex items-center gap-2 text-sm">
