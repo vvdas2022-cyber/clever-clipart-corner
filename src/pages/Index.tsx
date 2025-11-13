@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
@@ -8,47 +9,51 @@ import productFlowers from "@/assets/product-flowers.jpg";
 import productAnimals from "@/assets/product-animals.jpg";
 import productFonts from "@/assets/product-fonts.jpg";
 import productTemplates from "@/assets/product-templates.jpg";
+import productWinterLandscape from "@/assets/product-winter-landscape.png";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
-  // Mock featured products
-  const featuredProducts = [
-    {
-      id: "1",
-      title: "Watercolor Flower Clipart Pack - 50 PNG Files",
-      price: 12.99,
-      image: productFlowers,
-      rating: 5,
-      reviews: 342,
-      seller: "FloralDesigns",
-    },
-    {
-      id: "2",
-      title: "Cute Animal Stickers Bundle - Kawaii Style",
-      price: 8.99,
-      image: productAnimals,
-      rating: 4.8,
-      reviews: 256,
-      seller: "CuteCreations",
-    },
-    {
-      id: "3",
-      title: "Elegant Script Font Collection with Florals",
-      price: 15.99,
-      image: productFonts,
-      rating: 4.9,
-      reviews: 189,
-      seller: "TypeArtistry",
-    },
-    {
-      id: "4",
-      title: "Planner Templates Set - Watercolor Style",
-      price: 10.99,
-      image: productTemplates,
-      rating: 4.7,
-      reviews: 421,
-      seller: "PlannerPro",
-    },
-  ];
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+
+  // Image mapping for local assets
+  const imageMap: Record<string, string> = {
+    'product-flowers.jpg': productFlowers,
+    'product-animals.jpg': productAnimals,
+    'product-fonts.jpg': productFonts,
+    'product-templates.jpg': productTemplates,
+    'product-winter-landscape.png': productWinterLandscape,
+  };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+      if (error) {
+        console.error('Error fetching products:', error);
+        return;
+      }
+
+      if (data) {
+        // Transform data to match component props
+        const transformedProducts = data.map((product) => ({
+          id: product.id,
+          title: product.title,
+          price: Number(product.price),
+          image: imageMap[product.image_url] || product.image_url,
+          rating: Number(product.rating || 0),
+          reviews: product.reviews || 0,
+          seller: product.seller,
+        }));
+        setFeaturedProducts(transformedProducts);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const categories = [
     {
