@@ -60,7 +60,7 @@ serve(async (req) => {
               currency_code: 'USD',
               value: item.price.toFixed(2),
             },
-            quantity: '1',
+            quantity: String(item.quantity || 1),
           })),
         }],
         application_context: {
@@ -72,7 +72,12 @@ serve(async (req) => {
 
     const orderData = await orderResponse.json();
     
-    console.log('PayPal order created:', orderData.id);
+    console.log('PayPal order response:', JSON.stringify(orderData));
+    
+    if (orderData.error || !orderData.id) {
+      console.error('PayPal error:', orderData);
+      throw new Error(orderData.message || 'Failed to create PayPal order');
+    }
 
     return new Response(JSON.stringify(orderData), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
