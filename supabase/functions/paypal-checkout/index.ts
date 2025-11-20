@@ -17,12 +17,21 @@ serve(async (req) => {
     const PAYPAL_CLIENT_ID = Deno.env.get('PAYPAL_CLIENT_ID');
     const PAYPAL_SECRET = Deno.env.get('PAYPAL_SECRET');
     
+    console.log('PayPal Client ID length:', PAYPAL_CLIENT_ID?.length);
+    console.log('PayPal Secret length:', PAYPAL_SECRET?.length);
+    console.log('PayPal Client ID (first 10 chars):', PAYPAL_CLIENT_ID?.substring(0, 10));
+    
     if (!PAYPAL_CLIENT_ID || !PAYPAL_SECRET) {
       throw new Error('PayPal credentials not configured');
     }
 
+    // Trim any whitespace from credentials
+    const clientId = PAYPAL_CLIENT_ID.trim();
+    const secret = PAYPAL_SECRET.trim();
+
     // Get PayPal access token
-    const auth = btoa(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`);
+    const auth = btoa(`${clientId}:${secret}`);
+    console.log('Making token request to PayPal sandbox...');
     const tokenResponse = await fetch('https://api-m.sandbox.paypal.com/v1/oauth2/token', {
       method: 'POST',
       headers: {
@@ -32,7 +41,15 @@ serve(async (req) => {
       body: 'grant_type=client_credentials',
     });
 
-    const { access_token } = await tokenResponse.json();
+    const tokenData = await tokenResponse.json();
+    
+    if (!tokenResponse.ok || tokenData.error) {
+      console.error('PayPal token error:', JSON.stringify(tokenData));
+      throw new Error(`PayPal authentication failed: ${tokenData.error_description || tokenData.error || 'Unknown error'}`);
+    }
+    
+    console.log('PayPal token obtained successfully');
+    const { access_token } = tokenData;
 
     // Create PayPal order
     const orderResponse = await fetch('https://api-m.sandbox.paypal.com/v2/checkout/orders', {
