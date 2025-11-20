@@ -28,11 +28,19 @@ serve(async (req) => {
     // Trim any whitespace from credentials
     const clientId = PAYPAL_CLIENT_ID.trim();
     const secret = PAYPAL_SECRET.trim();
+    
+    // Use sandbox by default, but allow production via env variable
+    const isProduction = Deno.env.get('PAYPAL_MODE') === 'production';
+    const baseUrl = isProduction 
+      ? 'https://api-m.paypal.com' 
+      : 'https://api-m.sandbox.paypal.com';
+    
+    console.log(`Using PayPal ${isProduction ? 'PRODUCTION' : 'SANDBOX'} environment`);
 
     // Get PayPal access token
     const auth = btoa(`${clientId}:${secret}`);
-    console.log('Making token request to PayPal sandbox...');
-    const tokenResponse = await fetch('https://api-m.sandbox.paypal.com/v1/oauth2/token', {
+    console.log('Making token request to PayPal...');
+    const tokenResponse = await fetch(`${baseUrl}/v1/oauth2/token`, {
       method: 'POST',
       headers: {
         'Authorization': `Basic ${auth}`,
@@ -52,7 +60,7 @@ serve(async (req) => {
     const { access_token } = tokenData;
 
     // Create PayPal order
-    const orderResponse = await fetch('https://api-m.sandbox.paypal.com/v2/checkout/orders', {
+    const orderResponse = await fetch(`${baseUrl}/v2/checkout/orders`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${access_token}`,
