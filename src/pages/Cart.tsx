@@ -63,8 +63,8 @@ const Cart = () => {
     } catch (error) {
       console.error('PayPal checkout error:', error);
       toast({
-        title: "Payment Error",
-        description: "Failed to initiate PayPal checkout. Please try again.",
+        title: "भुगतान त्रुटि",
+        description: "PayPal चेकआउट शुरू करने में विफल। कृपया पुनः प्रयास करें।",
         variant: "destructive",
       });
     } finally {
@@ -76,13 +76,13 @@ const Cart = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
+        <h1 className="text-4xl font-bold mb-8">शॉपिंग कार्ट</h1>
 
         {cartItems.length === 0 ? (
           <Card className="p-12 text-center">
-            <p className="text-muted-foreground mb-4">Your cart is empty</p>
+            <p className="text-muted-foreground mb-4">आपकी कार्ट खाली है</p>
             <Link to="/browse">
-              <Button>Continue Shopping</Button>
+              <Button>खरीदारी जारी रखें</Button>
             </Link>
           </Card>
         ) : (
@@ -91,7 +91,7 @@ const Cart = () => {
             <div className="lg:col-span-2 space-y-4">
               {isLoading ? (
                 <Card className="p-8 text-center">
-                  <p className="text-muted-foreground">Loading cart...</p>
+                  <p className="text-muted-foreground">कार्ट लोड हो रहा है...</p>
                 </Card>
               ) : (
                 cartItems.map((item) => (
